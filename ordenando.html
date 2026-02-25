@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordenando</title>
+    <script src="ordenando.js"></script>
+</head>
+<body>
+    <h1>Ordenando Valores</h1>
+    <input type="number" id="valor">
+    <button onclick="add()">Adicionar</button>
+
+    <select id="algoritmo">
+        <option value="bubble" selected>Bubble Sort</option>
+        <option value="selection">Selection Sort</option>
+        <option value="quick">Quick Sort</option>
+    </select>
+
+    <button onclick="ordenar()">Ordenar</button>
+    <button onclick="misturar()">Misturar</button>
+
+    <ul id="valores"></ul>
+
+    <script>
+        function add() {
+            const campo = document.getElementById('valor');
+            const lista = document.getElementById('valores');
+            const node = document.createElement('li');
+            const texto = document.createTextNode(campo.value);
+            node.appendChild(texto);
+            lista.appendChild(node);
+        }
+
+        function ordenar() {
+            const lista = document.getElementById('valores');
+            const selecao = document.getElementById('algoritmo');
+            const vetor = Array.from(lista.children).map(item => eval(item.innerHTML));
+            
+            const index = selecao.selectedIndex;
+            if (index == 0) bubble_sort(vetor);
+            else if (index == 1) selection_sort(vetor);
+            else quick_sort(vetor, 0, vetor.length - 1);
+
+            lista.innerHTML = vetor.map(v => `<li>${v}</li>`).reduce((t, i) => t + i, "");
+        }
+
+        function misturar() {
+            const lista = document.getElementById('valores');
+            const vetor = Array.from(lista.children).map(item => eval(item.innerHTML));
+            shuffle(vetor, vetor.length);
+            lista.innerHTML = vetor.map(v => `<li>${v}</li>`).reduce((t, i) => t + i, "");
+        }
+    </script>
+</body>
+</html>

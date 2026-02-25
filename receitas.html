@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Receitas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-warning" onload="preencheCatalogo()"> <main class="container-fluid"> <h1 class="text-center my-4">Catálogo de Receitas</h1> <div id="pnlCatalogo" class="d-flex flex-wrap justify-content-center"></div>
+    </main>
+
+    <script>
+        // Vetor de elementos JSON com os dados das receitas [cite: 66]
+        const receitas = [
+            {
+                titulo: "Arroz de Carreteiro",
+                imagem: "arroz.png",
+                preparo: "Refogue a carne seca, adicione o arroz e os temperos, cozinhe até ficar macio.",
+                ingredientes: ["Arroz", "Carne Seca", "Paio", "Cebola", "Alho"]
+            },
+            {
+                titulo: "Feijoada",
+                imagem: "feijoada.png",
+                preparo: "Cozinhe o feijão com as carnes, adicione o tempero e deixe engrossar o caldo.",
+                ingredientes: ["Feijão Preto", "Carne de Porco", "Linguiça", "Louro"]
+            },
+            {
+                titulo: "Pudim de Leite",
+                imagem: "pudim.png",
+                preparo: "Bata tudo no liquidificador, asse em banho-maria com calda de caramelo.",
+                ingredientes: ["Leite Condensado", "Ovos", "Leite", "Açúcar"]
+            }
+        ];
+
+        // Gera a lista de ingredientes em HTML [cite: 67, 70]
+        function getListaIngredientes(receita) {
+            let texto = "<ul>"; // Inicia com tag ul [cite: 71]
+            // Usa map e reduce para criar os itens li [cite: 72]
+            texto += receita.ingredientes.map(ing => `<li>${ing}</li>`).reduce((acum, item) => acum + item, "");
+            texto += "</ul>"; // Finaliza e retorna [cite: 73]
+            return texto;
+        }
+
+        // Gera o card da receita usando Template Literals (sinais de crase) [cite: 74, 75]
+        function getCard(receita) {
+            return `
+                <div class="card m-3" style="width: 250px;"> <img src="${receita.imagem}" class="card-img-top" alt="${receita.titulo}"> <div class="card-body"> <h5 class="card-title">${receita.titulo}</h5> <div class="card-text"> ${getListaIngredientes(receita)}
+                            <hr>
+                            ${receita.preparo}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Exibe o conjunto de receitas na div pnlCatalogo [cite: 82]
+        function preencheCatalogo() {
+            const pnlCatalogo = document.getElementById("pnlCatalogo"); // Captura o elemento [cite: 83]
+            // Obtém o HTML via map/reduce e altera o innerHTML [cite: 84, 85]
+            const htmlGeral = receitas.map(receita => getCard(receita)).reduce((acum, card) => acum + card, "");
+            pnlCatalogo.innerHTML = htmlGeral;
+        }
+    </script>
+</body>
+</html>
